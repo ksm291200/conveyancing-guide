@@ -9,15 +9,15 @@
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js';
   import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
- const firebaseConfig = {
-  apiKey:            "AIzaSyBr-byCBzQ1ZUvjbu0p31ogkxlbX8YUI6U",
-  authDomain:        "conveyancing-guide.firebaseapp.com",
-  projectId:         "conveyancing-guide",
-  storageBucket:     "conveyancing-guide.firebasestorage.app",
-  messagingSenderId: "400119683687",
-  appId:             "1:400119683687:web:201f84a9ca3890196692c2",
-  databaseURL:       "https://conveyancing-guide-default-rtdb.firebaseio.com"
-};
+  const firebaseConfig = {
+    apiKey:            "PASTE_YOUR_apiKey_HERE",
+    authDomain:        "PASTE_YOUR_authDomain_HERE",
+    projectId:         "PASTE_YOUR_projectId_HERE",
+    storageBucket:     "PASTE_YOUR_storageBucket_HERE",
+    messagingSenderId: "PASTE_YOUR_messagingSenderId_HERE",
+    appId:             "PASTE_YOUR_appId_HERE",
+    databaseURL:       "https://conveyancing-guide-default-rtdb.firebaseio.com"
+  };
   // ════════════════════════════════════════════════════
 
   let db = null;
@@ -334,15 +334,94 @@ body.edit-mode-on .bookmark-btn{top:36px;}
 @media(max-width:900px){
   :root{--sidebar-w:0px;}
   .notebook::before{display:none;}
-  .sidebar{transform:translateX(-100%);transition:transform .25s;}
-  .sidebar.open{transform:translateX(0);width:220px;}
+  .sidebar{transform:translateX(-100%);transition:transform .25s;z-index:300;}
+  .sidebar.open{transform:translateX(0);width:260px;box-shadow:4px 0 24px rgba(0,0,0,.22);}
   .main{margin-left:0;}
   .margin-area{display:none;}
-  .page-content{padding:calc(var(--lh)*2) 1.5rem calc(var(--lh)*4);}
+  .page-content{padding:calc(var(--lh)*2) 1.2rem calc(var(--lh)*8) 1.2rem;}
   .page-content::before{display:none;}
   .toolbar{bottom:16px;right:16px;}
   .two-col{grid-template-columns:1fr;}
+  .bookmark-btn{top:12px;right:12px;font-size:11px;}
+  .mob-notes-btn{display:flex;}
+  .mob-notes-drawer{display:flex;}
 }
+/* Desktop collapsed sidebar */
+body.sidebar-collapsed .sidebar{transform:translateX(-100%);}
+body.sidebar-collapsed .notebook::before{display:none;}
+body.sidebar-collapsed .main{margin-left:0 !important;}
+body.sidebar-collapsed .mob-overlay{display:none !important;}
+/* ── hamburger button — always visible ── */
+.mob-menu-btn{
+  display:flex;
+  position:fixed;top:10px;left:10px;
+  width:36px;height:36px;border-radius:8px;
+  background:white;border:1.5px solid var(--rule-line);
+  align-items:center;justify-content:center;
+  font-size:17px;cursor:pointer;z-index:500;
+  box-shadow:1px 2px 6px rgba(0,0,0,.12);
+  transition:background .15s,border-color .15s;
+}
+.mob-menu-btn:hover{background:var(--teal-ink);border-color:var(--teal-ink);color:white;}
+/* nudge sidebar title right so it doesn't sit under the button on desktop */
+@media(min-width:901px){
+  .sb-header{padding-left:46px;}
+}
+/* ── sidebar overlay ── */
+.mob-overlay{
+  display:none;
+  position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:250;
+}
+.mob-overlay.visible{display:block;}
+/* ── mobile notes drawer ── */
+.mob-notes-btn{
+  display:none;
+  position:fixed;bottom:80px;left:16px;
+  height:36px;padding:0 14px;border-radius:20px;
+  background:var(--margin-line);color:white;border:none;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:600;
+  cursor:pointer;z-index:300;
+  align-items:center;gap:6px;
+  box-shadow:2px 3px 8px rgba(0,0,0,.18);
+}
+.mob-notes-drawer{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:white;border-top:2px solid var(--margin-line);
+  border-radius:16px 16px 0 0;
+  padding:16px 20px 32px;
+  z-index:350;
+  flex-direction:column;
+  max-height:55vh;
+  box-shadow:0 -4px 24px rgba(0,0,0,.14);
+  transform:translateY(100%);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+}
+.mob-notes-drawer.open{transform:translateY(0);}
+.mob-drawer-handle{
+  width:40px;height:4px;border-radius:2px;
+  background:var(--rule-line);margin:0 auto 14px;
+}
+.mob-drawer-title{
+  font-size:12px;font-weight:700;color:var(--margin-line);
+  text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;
+}
+.mob-drawer-notes{overflow-y:auto;flex:1;}
+.mob-drawer-notes .margin-note-block textarea{
+  background:#fafafa;border:1.5px solid var(--rule-line);
+  border-radius:4px;padding:6px 8px;font-size:13px;
+  color:var(--teal-ink);width:100%;resize:none;
+  min-height:60px;outline:none;line-height:1.5;
+  font-family:'Inter',sans-serif;
+}
+.mob-drawer-notes .margin-note-block{margin-bottom:10px;}
+.mob-add-note-btn{
+  margin-top:10px;width:100%;padding:8px;
+  border:1.5px dashed var(--rule-line);border-radius:6px;
+  background:none;font-family:'Inter',sans-serif;
+  font-size:12px;color:var(--ink-muted);cursor:pointer;
+}
+.mob-add-note-btn:hover{border-color:var(--teal-ink);color:var(--teal-ink);}
 </style>
 </head>
 <body>
@@ -2140,6 +2219,23 @@ Sent on behalf of [Fee Earner]
 <!-- ═══ EDIT BANNER ═══ -->
 <div class="edit-banner" id="editBanner">✏️ Edit Mode — click any card content to edit · changes save automatically</div>
 
+<!-- ═══ MOBILE HAMBURGER ═══ -->
+<button class="mob-menu-btn" id="mobMenuBtn" onclick="toggleMobileSidebar()" title="Menu">☰</button>
+
+<!-- ═══ SIDEBAR OVERLAY ═══ -->
+<div class="mob-overlay" id="mobOverlay" onclick="closeMobileSidebar()"></div>
+
+<!-- ═══ MOBILE NOTES BUTTON ═══ -->
+<button class="mob-notes-btn" id="mobNotesBtn" onclick="toggleMobileNotes()">✏️ My Notes</button>
+
+<!-- ═══ MOBILE NOTES DRAWER ═══ -->
+<div class="mob-notes-drawer" id="mobNotesDrawer">
+  <div class="mob-drawer-handle"></div>
+  <div class="mob-drawer-title" id="mobDrawerTitle">✏️ Notes — Overview</div>
+  <div class="mob-drawer-notes" id="mobDrawerNotes"></div>
+  <button class="mob-add-note-btn" onclick="addMarginNote(currentPage);renderMobileNotes()">+ add note</button>
+</div>
+
 <!-- ═══ TOOLBAR ═══ -->
 <div class="toolbar">
   <button class="tool-btn" onclick="printCurrentChapter()" title="Print this chapter">🖨️</button>
@@ -2219,6 +2315,7 @@ function showPage(id, btn) {
   syncStickyVisibility();
   restoreHighlightsForPage(id);
   restoreEditsForPage(id);
+  updateMobileNotes(id);
   // Close search results
   closeSearchResults();
 }
@@ -2810,6 +2907,84 @@ async function loadState() {
   restoreHighlightsForPage(currentPage);
   restoreEditsForPage(currentPage);
 }
+
+// ═══════════════════════════════════════════
+// MOBILE — SIDEBAR + NOTES DRAWER
+// ═══════════════════════════════════════════
+function toggleMobileSidebar() {
+  const isMobile = window.innerWidth <= 900;
+  if (isMobile) {
+    // Mobile: slide sidebar in/out with overlay
+    const sb = document.getElementById('sidebar');
+    const ov = document.getElementById('mobOverlay');
+    const isOpen = sb.classList.toggle('open');
+    ov.classList.toggle('visible', isOpen);
+  } else {
+    // Desktop: collapse/expand sidebar, shift main content
+    document.body.classList.toggle('sidebar-collapsed');
+  }
+}
+function closeMobileSidebar() {
+  const isMobile = window.innerWidth <= 900;
+  if (isMobile) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('mobOverlay').classList.remove('visible');
+  } else {
+    // On desktop, clicking overlay shouldn't happen — do nothing
+  }
+}
+
+let mobileNotesOpen = false;
+function toggleMobileNotes() {
+  mobileNotesOpen = !mobileNotesOpen;
+  const drawer = document.getElementById('mobNotesDrawer');
+  drawer.classList.toggle('open', mobileNotesOpen);
+  if (mobileNotesOpen) renderMobileNotes();
+}
+function closeMobileNotes() {
+  mobileNotesOpen = false;
+  document.getElementById('mobNotesDrawer').classList.remove('open');
+}
+function updateMobileNotes(pageId) {
+  const titleEl = document.getElementById('mobDrawerTitle');
+  if (titleEl) titleEl.textContent = '\u270f\ufe0f Notes \u2014 ' + (PAGE_LABELS[pageId] || pageId);
+  if (mobileNotesOpen) renderMobileNotes();
+  // Close drawer when navigating
+  closeMobileNotes();
+}
+function renderMobileNotes() {
+  const container = document.getElementById('mobDrawerNotes');
+  if (!container) return;
+  container.innerHTML = '';
+  const notes = state.marginNotes[currentPage] || [];
+  if (notes.length === 0) {
+    container.innerHTML = '<p style="color:var(--ink-muted);font-size:13px;font-style:italic;margin:4px 0 8px;">No notes yet — tap + add note below.</p>';
+    return;
+  }
+  notes.forEach(note => {
+    const block = document.createElement('div');
+    block.className = 'margin-note-block';
+    const ta = document.createElement('textarea');
+    ta.value = note.text;
+    ta.placeholder = 'write here...';
+    ta.addEventListener('input', () => { note.text = ta.value; ta.style.height='auto'; ta.style.height=ta.scrollHeight+'px'; debouncedSave(); });
+    ta.style.height = 'auto';
+    setTimeout(() => { ta.style.height = ta.scrollHeight + 'px'; }, 0);
+    const del = document.createElement('button');
+    del.className = 'del-note-btn';
+    del.textContent = '\u2715';
+    del.style.opacity = '0.5';
+    del.onclick = () => { deleteMarginNote(currentPage, note.id); renderMobileNotes(); };
+    block.appendChild(ta);
+    block.appendChild(del);
+    container.appendChild(block);
+  });
+}
+
+// Close mobile sidebar when a nav item is tapped
+document.addEventListener('click', e => {
+  if (e.target.closest('.nav-btn')) closeMobileSidebar();
+});
 
 // ═══════════════════════════════════════════
 // COVER PAGE
