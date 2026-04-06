@@ -10,14 +10,14 @@
   import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js';
 
   const firebaseConfig = {
-  apiKey: "AIzaSyBr-byCBzQ1ZUvjbu0p31ogkxlbX8YUI6U",
-  authDomain: "conveyancing-guide.firebaseapp.com",
-  databaseURL: "https://conveyancing-guide-default-rtdb.firebaseio.com",
-  projectId: "conveyancing-guide",
-  storageBucket: "conveyancing-guide.firebasestorage.app",
-  messagingSenderId: "400119683687",
-  appId: "1:400119683687:web:201f84a9ca3890196692c2"
-};
+    apiKey:            "PASTE_YOUR_apiKey_HERE",
+    authDomain:        "PASTE_YOUR_authDomain_HERE",
+    projectId:         "PASTE_YOUR_projectId_HERE",
+    storageBucket:     "PASTE_YOUR_storageBucket_HERE",
+    messagingSenderId: "PASTE_YOUR_messagingSenderId_HERE",
+    appId:             "PASTE_YOUR_appId_HERE",
+    databaseURL:       "https://conveyancing-guide-default-rtdb.firebaseio.com"
+  };
   // ════════════════════════════════════════════════════
 
   let db = null;
@@ -343,8 +343,8 @@ body.edit-mode-on .bookmark-btn{top:36px;}
   .toolbar{bottom:16px;right:16px;}
   .two-col{grid-template-columns:1fr;}
   .bookmark-btn{top:12px;right:12px;font-size:11px;}
-  .mob-notes-btn{display:flex;}
-  .mob-notes-drawer{display:flex;}
+  .mob-notes-btn{display:flex !important;}
+  .mob-notes-drawer{display:flex !important;}
 }
 /* Desktop collapsed sidebar */
 body.sidebar-collapsed .sidebar{transform:translateX(-100%);}
@@ -376,13 +376,14 @@ body.sidebar-collapsed .mob-overlay{display:none !important;}
 /* ── mobile notes drawer ── */
 .mob-notes-btn{
   display:none;
-  position:fixed;bottom:80px;left:16px;
-  height:36px;padding:0 14px;border-radius:20px;
+  position:fixed;bottom:90px;left:16px;
+  height:40px;padding:0 16px;border-radius:20px;
   background:var(--margin-line);color:white;border:none;
-  font-family:'Inter',sans-serif;font-size:12px;font-weight:600;
-  cursor:pointer;z-index:300;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;z-index:400;
   align-items:center;gap:6px;
-  box-shadow:2px 3px 8px rgba(0,0,0,.18);
+  box-shadow:0 3px 10px rgba(192,57,43,.35);
+  letter-spacing:.01em;
 }
 .mob-notes-drawer{
   display:none;
